@@ -47,7 +47,7 @@ module.exports = {
         'beat-fade-odd': 'beat-fade 0.7s 0.35s infinite linear',
       },
       fontFamily: {
-        sans: ['Graphik', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
         smallTight: ['14px', '15px'],
@@ -66,6 +66,9 @@ module.exports = {
       },
       colors: {
         typography: {
+          primary: '#232323',
+          secondary: "#818181",
+          banner: '#232323',
           h1: '#212121',
           h2: '#6b6f76',
           inputlabel: '#282a30',

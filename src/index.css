@@ -2,31 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Graphik';
-  font-style: normal;
-  font-display: optional;
-  src: url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikThin.otf)
-      font-weight-thin,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikExtralight.otf)
-      font-weight-extralight,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikLight.otf)
-      font-weight-light,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikRegular.otf)
-      font-weight-normal,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikMedium.otf)
-      font-weight-medium,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikSemibold.otf)
-      font-weight-semibold,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikBold.otf)
-      font-weight-bold,
-    url(https://d1l2xccggl7xwv.cloudfront.net/fonts/graphik/GraphikBlack.otf)
-      font-weight-black;
-}
+@import url('//fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;900&display=swap');
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
