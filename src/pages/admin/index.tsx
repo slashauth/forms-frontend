@@ -2,7 +2,7 @@ import { CalendarIcon } from '@heroicons/react/outline';
 import { useSlashAuth } from '@slashauth/slashauth-react';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { API } from '../../api';
-import { PrimaryButton, WhiteButton } from '../../common/components/Buttons';
+import { PrimaryButton } from '../../common/components/Buttons';
 import ContentLayout from '../../common/layout/content';
 import { ConfigContext, ModalContext, ModalTypeAddEvent } from '../../context';
 import { AddEventModalContents } from '../../features/add-event/modal';

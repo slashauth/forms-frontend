@@ -33,7 +33,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-prod": "NODE_ENV=prod npx env-cmd -f ./.env.prod npx react-scripts build"
+    "build-prod": "NODE_ENV=prod npx env-cmd -f ./.env.prod npx react-scripts build",
+    "lint": "npx eslint --ext .ts --ext .tsx --max-warnings 0 ./src",
+    "lint-fix": "npx eslint --ext .ts --ext .tsx --max-warnings 0 --fix ./src",
+    "preinstall": "husky install"
   },
   "lint-staged": {
     "!(src/graphql/*)*.{ts,tsx}": [
@@ -64,6 +67,7 @@
     "@types/uuid": "^8.3.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
     "prettier": "^2.7.1"
   }
 }
