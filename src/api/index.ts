@@ -1,6 +1,7 @@
 import { Config } from '../config';
 import { AppMetadata } from '../model/app-metadata';
 import { SlashauthEvent } from '../model/event';
+import { User } from '../model/user';
 
 export class API {
   private readonly _config: Config;
@@ -68,6 +69,27 @@ export class API {
         elem.link,
         elem.dateTime
       );
+    });
+
+    return data;
+  }
+
+  public async getUsers(): Promise<User[]> {
+    const response = await fetch(this._config.restDomain + '/users', {
+      headers: {
+        ...this.defaultHeaders(),
+      },
+      method: 'GET',
+    });
+
+    if (response.status !== 200) {
+      console.error('Failed to get users');
+      return [] as User[];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = (await response.json()).map((elem: Record<string, any>) => {
+      return new User(elem.address, '', elem.roles, elem.dateTime);
     });
 
     return data;

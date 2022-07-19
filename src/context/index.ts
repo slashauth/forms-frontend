@@ -3,6 +3,7 @@ import { createContext } from 'react';
 import { Config, emptyConfig } from '../config';
 import { AppMetadata } from '../model/app-metadata';
 import { SlashauthEvent } from '../model/event';
+import { User } from '../model/user';
 import { NavigationState } from '../providers/navigation-provider';
 
 export type ModalActionType = string;
@@ -51,6 +52,11 @@ export type AppContextType = {
     fetch: (roleName: string) => Promise<boolean>;
     fetchRoles: () => Promise<void>;
   };
+  users: {
+    data: User[] | null;
+    loading: boolean;
+    fetch: () => Promise<User[] | null>;
+  };
 };
 
 export const emptyAppContext = {
@@ -69,6 +75,11 @@ export const emptyAppContext = {
     data: {},
     fetch: async () => false,
     fetchRoles: async () => {},
+  },
+  users: {
+    data: undefined,
+    loading: false,
+    fetch: async () => null,
   },
 };
 

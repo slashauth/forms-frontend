@@ -5,6 +5,7 @@ import { RoleNameAdmin, RoleNameMember } from '../constants';
 import { AppContext, ConfigContext } from '../context';
 import { AppMetadata } from '../model/app-metadata';
 import { SlashauthEvent } from '../model/event';
+import { User } from '../model/user';
 
 type Props = {
   children: React.ReactNode;
@@ -29,6 +30,11 @@ const AppProvider = ({ children }: Props) => {
   const [roles, setRoles] = useState<{
     [roleName: string]: FetchedData<boolean>;
   }>({});
+
+  const [users, setUsers] = useState<FetchedData<User[]>>({
+    data: undefined,
+    loading: false,
+  });
 
   const { getAccessTokenSilently, isAuthenticated, hasRole } = useSlashAuth();
   const config = useContext(ConfigContext);
@@ -122,6 +128,37 @@ const AppProvider = ({ children }: Props) => {
       });
     }, [appMetadata, config, getAccessTokenSilently]);
 
+  const fetchUsers = useCallback(async (): Promise<User[] | null> => {
+    if (!isAuthenticated) {
+      return null;
+    }
+    setUsers((existing) => ({
+      ...existing,
+      loading: true,
+    }));
+
+    return getAccessTokenSilently().then((token) => {
+      const api = new API(config, token);
+      return api
+        .getUsers()
+        .then((users) => {
+          setUsers({
+            data: users,
+            loading: false,
+          });
+          return users;
+        })
+        .catch((err) => {
+          console.error('Error fetching users: ', err);
+          setUsers({
+            data: null,
+            loading: false,
+          });
+          return null;
+        });
+    });
+  }, [config, getAccessTokenSilently, isAuthenticated]);
+
   const fetchEvents = useCallback(async (): Promise<
     SlashauthEvent[] | null
   > => {
@@ -146,7 +183,7 @@ const AppProvider = ({ children }: Props) => {
         })
         .catch((err) => {
           console.error('Error fetching events: ', err);
-          setAppMetadata({
+          setEvents({
             data: null,
             loading: false,
           });
@@ -177,6 +214,10 @@ const AppProvider = ({ children }: Props) => {
           },
           fetch: fetchRoleData,
           fetchRoles,
+        },
+        users: {
+          ...users,
+          fetch: fetchUsers,
         },
       }}
     >

@@ -19,7 +19,11 @@ export const ContactPage = () => {
       return <LoggedOut roleNameRequired="Member" />;
     }
 
-    if (!roles.data || roles.data[RoleNameMember].loading) {
+    if (
+      !roles.data ||
+      !roles.data[RoleNameMember] ||
+      roles.data[RoleNameMember].loading
+    ) {
       return <BeatLoader />;
     }
 

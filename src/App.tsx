@@ -39,6 +39,9 @@ function App() {
           </AppProvider>
         </SlashAuthProvider>
       </ConfigProvider>
+      <div className="flex items-center justify-center my-8">
+        Powered by /auth
+      </div>
     </div>
   );
 }

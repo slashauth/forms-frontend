@@ -58,7 +58,7 @@ const Home = () => {
               <div className="flex flex-col items-center justify-center col-span-1">
                 <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
                   <SparklesIcon
-                    className="w-8 h-8 text-indigo-400"
+                    className="w-8 h-8 text-indigo-500"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -70,7 +70,7 @@ const Home = () => {
               <div className="flex flex-col items-center justify-center col-span-1">
                 <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
                   <ShieldCheckIcon
-                    className="w-8 h-8 text-indigo-400"
+                    className="w-8 h-8 text-indigo-500"
                     strokeWidth={1.5}
                   />
                 </div>
@@ -80,7 +80,7 @@ const Home = () => {
               <div className="flex flex-col items-center justify-center col-span-1">
                 <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
                   <LightBulbIcon
-                    className="w-8 h-8 text-indigo-400"
+                    className="w-8 h-8 text-indigo-500"
                     strokeWidth={1.5}
                   />
                 </div>
