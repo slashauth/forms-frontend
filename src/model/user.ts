@@ -11,7 +11,7 @@ export class User {
     dateTime: string
   ) {
     this.address = address;
-    this.nickname = nickname;
+    this.nickname = nickname || '';
     this.roles = roles;
     try {
       this.dateTime = Date.parse(dateTime);

@@ -57,6 +57,12 @@ export type AppContextType = {
     loading: boolean;
     fetch: () => Promise<User[] | null>;
   };
+  me: {
+    data: User | null;
+    loading: boolean;
+    fetch: () => Promise<User | null>;
+    patch: (nickname: string) => Promise<User | null>;
+  };
 };
 
 export const emptyAppContext = {
@@ -80,6 +86,12 @@ export const emptyAppContext = {
     data: undefined,
     loading: false,
     fetch: async () => null,
+  },
+  me: {
+    data: undefined,
+    loading: false,
+    fetch: async () => null,
+    patch: async (nickname: string) => null,
   },
 };
 

@@ -26,9 +26,43 @@ export class API {
       return null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const elem = await response.json();
     return new AppMetadata(elem.name, elem.description);
+  }
+
+  public async getMe(): Promise<User> {
+    const response = await fetch(this._config.restDomain + '/me', {
+      headers: {
+        ...this.defaultHeaders(),
+        Authorization: `Bearer ${this._accessToken}`,
+      },
+      method: 'GET',
+    });
+
+    if (response.status > 299 || response.status < 200) {
+      console.error('Failed to add event');
+    }
+
+    const elem = await response.json();
+    return new User(elem.address, elem.nickname, elem.roles, elem.dateTime);
+  }
+
+  public async patchMe(nickname: string): Promise<User> {
+    const response = await fetch(this._config.restDomain + '/me', {
+      headers: {
+        ...this.defaultHeaders(),
+        Authorization: `Bearer ${this._accessToken}`,
+      },
+      method: 'PATCH',
+      body: JSON.stringify({ nickname }),
+    });
+
+    if (response.status > 299 || response.status < 200) {
+      console.error('Failed to add event');
+    }
+
+    const elem = await response.json();
+    return new User(elem.address, elem.nickname, elem.roles, elem.dateTime);
   }
 
   public async addEvent(event: SlashauthEvent): Promise<SlashauthEvent> {
@@ -89,7 +123,7 @@ export class API {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = (await response.json()).map((elem: Record<string, any>) => {
-      return new User(elem.address, '', elem.roles, elem.dateTime);
+      return new User(elem.address, elem.nickname, elem.roles, elem.dateTime);
     });
 
     return data;

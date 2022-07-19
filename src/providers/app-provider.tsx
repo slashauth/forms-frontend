@@ -36,6 +36,11 @@ const AppProvider = ({ children }: Props) => {
     loading: false,
   });
 
+  const [me, setMe] = useState<FetchedData<User>>({
+    data: undefined,
+    loading: false,
+  });
+
   const { getAccessTokenSilently, isAuthenticated, hasRole } = useSlashAuth();
   const config = useContext(ConfigContext);
 
@@ -45,6 +50,10 @@ const AppProvider = ({ children }: Props) => {
 
   if (!isAuthenticated && roles && Object.keys(roles).length !== 0) {
     setRoles({});
+  }
+
+  if (!isAuthenticated && me.data !== undefined) {
+    setMe({ data: undefined, loading: false });
   }
 
   const addRole = useCallback((roleName: string, response: boolean) => {
@@ -95,6 +104,59 @@ const AppProvider = ({ children }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
+
+  const fetchMe = useCallback(async (): Promise<User | null> => {
+    setTimeout(
+      () =>
+        setMe({
+          ...me,
+          loading: true,
+        }),
+      0
+    );
+    return getAccessTokenSilently().then((token) => {
+      const api = new API(config, token);
+      return api
+        .getMe()
+        .then((user) => {
+          setMe({
+            data: user,
+            loading: false,
+          });
+          return user;
+        })
+        .catch((err) => {
+          console.error('Error fetching me', err);
+          setMe({
+            data: null,
+            loading: false,
+          });
+          return null;
+        });
+    });
+  }, [config, getAccessTokenSilently, me]);
+
+  const patchMe = useCallback(
+    async (nickname: string): Promise<User | null> => {
+      return getAccessTokenSilently().then((token) => {
+        const api = new API(config, token);
+        return api
+          .patchMe(nickname)
+          .then((user) => {
+            setMe({
+              data: user,
+              loading: false,
+            });
+            return user;
+          })
+          .catch((err) => {
+            console.error('Error fetching me', err);
+            return null;
+          });
+      });
+    },
+    [config, getAccessTokenSilently]
+  );
 
   const fetchAppMetadata =
     useCallback(async (): Promise<AppMetadata | null> => {
@@ -218,6 +280,11 @@ const AppProvider = ({ children }: Props) => {
         users: {
           ...users,
           fetch: fetchUsers,
+        },
+        me: {
+          ...me,
+          fetch: fetchMe,
+          patch: patchMe,
         },
       }}
     >

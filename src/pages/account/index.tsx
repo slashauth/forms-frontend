@@ -1,29 +1,44 @@
-import { CalendarIcon } from '@heroicons/react/outline';
 import { useSlashAuth } from '@slashauth/slashauth-react';
-import { useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { LoggedOut } from '../../common/components/LoggedOut';
 import { NotAuthorized } from '../../common/components/NotAuthorized';
 import { BeatLoader } from '../../common/components/spinners/beat-loader';
 import ContentLayout from '../../common/layout/content';
 import { RoleNameMember } from '../../constants';
 import { AppContext } from '../../context';
-import { EventElem } from '../../features/events/event';
 import TopBar from '../../features/top-bar';
 import accountGradient from '../../common/gradients/account-gradient.png';
+import { InputWithValidation } from '../../common/form/InputWithValidation';
+import { PrimaryButton } from '../../common/components/Buttons';
+import { classNames } from '../../util/classnames';
+import {
+  SocialButton,
+  SocialProvider,
+} from '../../common/components/buttons/social-button';
+import toast from 'react-hot-toast';
 
 export const AccountPage = () => {
-  const { events, roles } = useContext(AppContext);
+  const { me, roles } = useContext(AppContext);
 
   const { isAuthenticated } = useSlashAuth();
 
+  const [nicknameValue, setNicknameValue] = useState('');
+
   useEffect(() => {
     if (isAuthenticated) {
-      events.fetch();
+      me.fetch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
 
-  const eventsContent = useMemo(() => {
+  const handleSetNickname = useCallback(async () => {
+    if (isAuthenticated && me?.patch) {
+      me.patch(nicknameValue);
+    }
+    setNicknameValue('');
+  }, [isAuthenticated, me, nicknameValue]);
+
+  const meContent = useMemo(() => {
     if (!isAuthenticated) {
       return <LoggedOut roleNameRequired={RoleNameMember} />;
     }
@@ -31,7 +46,8 @@ export const AccountPage = () => {
     if (
       !roles.data ||
       !roles.data[RoleNameMember] ||
-      roles.data[RoleNameMember].loading
+      roles.data[RoleNameMember].loading ||
+      !me?.data
     ) {
       return <BeatLoader />;
     }
@@ -40,29 +56,81 @@ export const AccountPage = () => {
       return <NotAuthorized roleNameRequired={RoleNameMember} />;
     }
 
-    if (!events.data || events.data.length === 0) {
-      return (
-        <div className="flex flex-col items-center justify-center p-8 border border-gray-100 rounded-lg">
-          <div className="flex flex-col p-5 rounded-full bg-indigo-50">
-            <CalendarIcon
-              className="w-16 h-16 text-indigo-500"
-              strokeWidth={1}
-            />
+    return (
+      <div className="flex flex-col px-4 md:w-1/2 sm:px-0">
+        <div className="flex flex-col pb-10 border-b border-gray-100">
+          <h2 className="text-[24px] font-semibold text-primary text-left">
+            Set Your Nickname
+          </h2>
+          <div className="flex flex-row mt-4 space-x-2 text-left">
+            <span className="text-[14px] font-medium">Current Nickname:</span>
+            <span
+              className={classNames(
+                'text-[14px] text-left text-secondary',
+                (!me.data.nickname || me.data.nickname.length === 0) && 'italic'
+              )}
+            >
+              {!me.data.nickname || me.data.nickname.length === 0
+                ? 'No nickname'
+                : me.data.nickname}
+            </span>
           </div>
-          <div className="mt-4 text-[16px] font-medium text-center text-secondary">
-            No upcoming events
+          <InputWithValidation
+            value={nicknameValue}
+            onTextChange={setNicknameValue}
+          />
+          <div className="flex mt-4 space-x-2">
+            <PrimaryButton onClick={handleSetNickname}>Save</PrimaryButton>
           </div>
         </div>
-      );
-    }
-    return (
-      <div className="flex flex-col space-y-4">
-        {events.data.map((ev, idx) => (
-          <EventElem key={`${ev.name}-${idx}`} event={ev} idx={idx} />
-        ))}
+        <div className="flex flex-col">
+          <h2 className="text-[24px] font-semibold text-primary text-left mt-8">
+            Connect your socials
+          </h2>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-row items-center space-x-4">
+              <div className="text-discord-purple">
+                <SocialButton
+                  provider={SocialProvider.Discord}
+                  hideBackground
+                />
+              </div>
+              <span className="text-[14px] text-secondary">
+                Connect your Discord
+              </span>
+            </div>
+            <div className="inline-flex">
+              <PrimaryButton
+                onClick={() => toast.error('Not implemented yet!')}
+              >
+                Connect
+              </PrimaryButton>
+            </div>
+          </div>
+          <div className="flex flex-col mt-8 space-y-4">
+            <div className="flex flex-row items-center space-x-4">
+              <div className="text-twitter-blue">
+                <SocialButton
+                  provider={SocialProvider.Twitter}
+                  hideBackground
+                />
+              </div>
+              <span className="text-[14px] text-secondary">
+                Connect your Twitter
+              </span>
+            </div>
+            <div className="inline-flex">
+              <PrimaryButton
+                onClick={() => toast.error('Not implemented yet!')}
+              >
+                Connect
+              </PrimaryButton>
+            </div>
+          </div>
+        </div>
       </div>
     );
-  }, [events.data, isAuthenticated, roles.data]);
+  }, [handleSetNickname, isAuthenticated, me?.data, nicknameValue, roles.data]);
 
   return (
     <>
@@ -86,7 +154,7 @@ export const AccountPage = () => {
       </div>
       <ContentLayout fullHeight additionalClassnames="mt-8">
         <main className="text-center text-primary">
-          <div className="mt-8">{eventsContent}</div>
+          <div className="mt-8">{meContent}</div>
         </main>
       </ContentLayout>
     </>
