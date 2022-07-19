@@ -35,6 +35,7 @@ push-prod: build-prod
 	aws s3 sync build s3://${DEMO_BUCKET_NAME}/${DEMO_FOLDER_NAME}/${VERSION} --delete --cache-control max-age=31536000,public --region=us-west-2 --profile=debrief --exclude "static/*"
 	aws s3 sync build s3://${DEMO_BUCKET_NAME}/${DEMO_FOLDER_NAME}/${VERSION} --delete --cache-control max-age=31536000,public --region=us-west-2 --profile=debrief --exclude "*" --include static/css/* --content-encoding gzip
 	aws s3 sync build s3://${DEMO_BUCKET_NAME}/${DEMO_FOLDER_NAME}/${VERSION} --delete --cache-control max-age=31536000,public --region=us-west-2 --profile=debrief --exclude "*" --include static/js/* --content-encoding gzip
+	aws s3 sync build/static/media s3://${PROD_BUCKET_NAME}/${PROD_FOLDER_NAME}/${VERSION}/static/media --cache-control max-age=31536000,public --region=us-west-2 --profile=debrief
 	aws s3 cp s3://${DEMO_BUCKET_NAME}/${DEMO_FOLDER_NAME}/${VERSION}/index.html s3://${DEMO_BUCKET_NAME}/${DEMO_FOLDER_NAME}/${VERSION}/index.html --metadata-directive REPLACE --cache-control max-age=0,no-cache,must-revalidate --content-type text/html --region us-west-2 --profile debrief
 
 .PHONY: deploy-prod
