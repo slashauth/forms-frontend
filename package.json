@@ -32,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-prod": "NODE_ENV=prod npx env-cmd -f ./.env.prod npx react-scripts build"
   },
   "lint-staged": {
     "!(src/graphql/*)*.{ts,tsx}": [
