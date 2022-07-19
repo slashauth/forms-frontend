@@ -1,4 +1,5 @@
 import { Config } from '../config';
+import { AppMetadata } from '../model/app-metadata';
 import { SlashauthEvent } from '../model/event';
 
 export class API {
@@ -8,6 +9,25 @@ export class API {
   constructor(private readonly config: Config, accessToken: string) {
     this._config = config;
     this._accessToken = accessToken;
+  }
+
+  public async getAppMetadata(): Promise<AppMetadata | null> {
+    const response = await fetch(this._config.restDomain + '/metadata', {
+      headers: {
+        ...this.defaultHeaders(),
+        Authorization: `Bearer ${this._accessToken}`,
+      },
+      method: 'GET',
+    });
+
+    if (response.status !== 200) {
+      console.error('Failed to fetch app');
+      return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const elem = await response.json();
+    return new AppMetadata(elem.name, elem.description);
   }
 
   public async addEvent(event: SlashauthEvent): Promise<SlashauthEvent> {

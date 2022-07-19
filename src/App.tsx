@@ -4,6 +4,7 @@ import { AppContents } from './AppContents';
 import ConfigProvider from './providers/config-provider';
 import ModalProvider from './providers/modal-provider';
 import { classNames } from './util/classnames';
+import AppProvider from './providers/app-provider';
 
 const providerOptions = {
   walletconnect: {
@@ -31,9 +32,11 @@ function App() {
           clientID={config.appClientID}
           providers={providerOptions}
         >
-          <ModalProvider>
-            <AppContents />
-          </ModalProvider>
+          <AppProvider>
+            <ModalProvider>
+              <AppContents />
+            </ModalProvider>
+          </AppProvider>
         </SlashAuthProvider>
       </ConfigProvider>
     </div>

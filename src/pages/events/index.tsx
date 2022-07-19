@@ -1,34 +1,46 @@
 import { CalendarIcon } from '@heroicons/react/outline';
 import { useSlashAuth } from '@slashauth/slashauth-react';
-import { useContext, useMemo, useState } from 'react';
-import { API } from '../../api';
+import { useContext, useEffect, useMemo } from 'react';
+import { LoggedOut } from '../../common/components/LoggedOut';
+import { BeatLoader } from '../../common/components/spinners/beat-loader';
 import ContentLayout from '../../common/layout/content';
-import { ConfigContext } from '../../context';
+import { AppContext } from '../../context';
 import { EventElem } from '../../features/events/event';
 import TopBar from '../../features/top-bar';
-import { SlashauthEvent } from '../../model/event';
+import { RoleNameMember } from '../../constants';
+import { NotAuthorized } from '../../common/components/NotAuthorized';
+import eventsGradient from '../../common/gradients/events-gradient.png';
 
 export const EventsPage = () => {
-  const config = useContext(ConfigContext);
-  const { getAccessTokenSilently } = useSlashAuth();
+  const { events, roles } = useContext(AppContext);
 
-  const [events, setEvents] = useState<SlashauthEvent[]>([]);
-  const [fetched, setFetched] = useState(false);
+  const { isAuthenticated } = useSlashAuth();
 
-  if (!fetched) {
-    getAccessTokenSilently().then((token) => {
-      const api = new API(config, token);
-
-      api
-        .getEvents()
-        .then(setEvents)
-        .catch((err) => console.error(err));
-    });
-    setFetched(true);
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      events.fetch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const eventsContent = useMemo(() => {
-    if (!events || events.length === 0) {
+    if (!isAuthenticated) {
+      return <LoggedOut roleNameRequired={RoleNameMember} />;
+    }
+
+    if (
+      !roles.data ||
+      !roles.data[RoleNameMember] ||
+      roles.data[RoleNameMember].loading
+    ) {
+      return <BeatLoader />;
+    }
+
+    if (!roles.data[RoleNameMember].data) {
+      return <NotAuthorized roleNameRequired={RoleNameMember} />;
+    }
+
+    if (!events.data || events.data.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center p-8 border border-gray-100 rounded-lg">
           <div className="flex flex-col p-5 rounded-full bg-indigo-50">
@@ -45,26 +57,35 @@ export const EventsPage = () => {
     }
     return (
       <div className="flex flex-col space-y-4">
-        {events.map((ev, idx) => (
+        {events.data.map((ev, idx) => (
           <EventElem key={`${ev.name}-${idx}`} event={ev} />
         ))}
       </div>
     );
-  }, [events]);
+  }, [events.data, isAuthenticated, roles.data]);
 
   return (
     <>
       <TopBar />
-      <ContentLayout additionalClassnames="mt-8">
+      <div className="relative w-full h-[300px] bg-green">
+        <img
+          src={eventsGradient}
+          className="absolute inset-0 h-[300px] w-full object-cover z-0"
+          alt="Home Gradient"
+        />
+        <div className="absolute inset-0 flex flex-col">
+          <ContentLayout fullHeight>
+            <div className="flex flex-col items-start justify-center w-full h-full px-2 sm:w-2/3 sm:px-0 md: xl:w-2/5 text-banner">
+              <h1 className="text-[36px] font-semibold">Upcoming Events</h1>
+              <p className="text-[21px]">
+                Keep your community in the loop with a member-only Events page.
+              </p>
+            </div>
+          </ContentLayout>
+        </div>
+      </div>
+      <ContentLayout fullHeight additionalClassnames="mt-8">
         <main className="text-center text-primary">
-          <div className="pb-8 mt-4 mb-8 border-b border-gray-100">
-            <div className="mt-4 mb-2 text-[36px] font-semibold">
-              Upcoming Events
-            </div>
-            <div className="text-[16px] flex flex-row justify-center text-secondary">
-              Keep your community in the loop with a member-only Events page.
-            </div>
-          </div>
           <div className="mt-8">{eventsContent}</div>
         </main>
       </ContentLayout>

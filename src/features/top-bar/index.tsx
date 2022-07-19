@@ -1,6 +1,6 @@
 import { Fragment, useContext, useMemo } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import { NavigationContext } from '../../context';
+import { AppContext, NavigationContext } from '../../context';
 import ContentLayout from '../../common/layout/content';
 import { Link, useNavigate } from 'react-router-dom';
 import { TopBarNavigation } from './navigation';
@@ -16,6 +16,8 @@ function TopBar() {
   const { isAuthenticated, connectedWallet, logout } = useSlashAuth();
   const navigation = useContext(NavigationContext);
   const navigate = useNavigate();
+
+  const { appMetadata } = useContext(AppContext);
 
   const topActionButton = useMemo(() => {
     if (!connectedWallet) {
@@ -33,7 +35,7 @@ function TopBar() {
               <div className="flex">
                 <div className="flex items-center flex-shrink-0">
                   <Link to="/" className="flex items-center">
-                    <H1>App Name</H1>
+                    <H1>{appMetadata?.data.name}</H1>
                   </Link>
                 </div>
                 <TopBarNavigation />

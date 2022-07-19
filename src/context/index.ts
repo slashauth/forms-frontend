@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Config, emptyConfig } from '../config';
+import { AppMetadata } from '../model/app-metadata';
+import { SlashauthEvent } from '../model/event';
 import { NavigationState } from '../providers/navigation-provider';
 
 export type ModalActionType = string;
@@ -27,6 +29,49 @@ export type ModalContextType = {
   addListener: (type: ModalType, fn: ModalListenerFn) => UnlistenFn;
 };
 
+export type AppContextType = {
+  appMetadata: {
+    data: AppMetadata | null;
+    loading: boolean;
+    fetch: () => Promise<AppMetadata>;
+  };
+  events: {
+    data: SlashauthEvent[] | null;
+    loading: boolean;
+    fetch: () => Promise<SlashauthEvent[] | null>;
+    addEvent: (event: SlashauthEvent) => void;
+  };
+  roles: {
+    data: {
+      [roleName: string]: {
+        data: boolean;
+        loading: boolean;
+      };
+    };
+    fetch: (roleName: string) => Promise<boolean>;
+    fetchRoles: () => Promise<void>;
+  };
+};
+
+export const emptyAppContext = {
+  appMetadata: {
+    data: undefined,
+    loading: false,
+    fetch: async () => null,
+  },
+  events: {
+    data: undefined,
+    loading: false,
+    fetch: async () => null,
+    addEvent: (event: SlashauthEvent) => {},
+  },
+  roles: {
+    data: {},
+    fetch: async () => false,
+    fetchRoles: async () => {},
+  },
+};
+
 export const NavigationContext = createContext<NavigationState>({
   navigationItems: [],
   selectedID: null,
@@ -43,3 +88,5 @@ export const ModalContext = createContext<ModalContextType>({
   setContents: () => {},
   addListener: (type: ModalType, fn: ModalListenerFn) => () => {},
 });
+
+export const AppContext = createContext<AppContextType>(emptyAppContext);

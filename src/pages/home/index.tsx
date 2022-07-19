@@ -34,7 +34,7 @@ const Home = () => {
           </ContentLayout>
         </div>
       </div>
-      <ContentLayout additionalClassnames="mt-8">
+      <ContentLayout fullHeight additionalClassnames="mt-8">
         <main className="text-center text-primary">
           <div className="mt-4 mb-8">
             <div className="mt-4 mb-8 text-[31px] font-medium">

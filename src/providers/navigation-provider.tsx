@@ -9,6 +9,7 @@ import { NavigationContext } from '../context';
 
 export enum LeftBarID {
   Home = 'home',
+  Account = 'account',
   Events = 'events',
   Contact = 'contact',
   Admin = 'admin',
@@ -30,6 +31,12 @@ const items: SidebarItem[] = [
     name: 'Home',
     pathname: '/',
     icon: PaperAirplaneIcon,
+  },
+  {
+    id: LeftBarID.Account,
+    name: 'Account',
+    pathname: '/account',
+    icon: UserIcon,
   },
   {
     id: LeftBarID.Events,

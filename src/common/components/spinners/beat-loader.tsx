@@ -26,5 +26,3 @@ export const BeatLoader = React.memo(({ color }: Props) => {
     </div>
   );
 });
-
-export default BeatLoader;
