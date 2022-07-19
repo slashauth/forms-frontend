@@ -2,7 +2,12 @@ import TopBar from '../../features/top-bar';
 import ContentLayout from '../../common/layout/content';
 import homeGradient from '../../common/gradients/home-gradient.png';
 import { PrimaryButton, WhiteButton } from '../../common/components/Buttons';
-import { ArrowRightIcon } from '@heroicons/react/outline';
+import {
+  ArrowRightIcon,
+  LightBulbIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+} from '@heroicons/react/outline';
 
 const Home = () => {
   return (
@@ -49,24 +54,38 @@ const Home = () => {
             </div>
           </div>
           <div className="pb-12 border-b border-gray-100">
-            <div className="grid items-center grid-cols-1 mt-8 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 overflow-wrap">
+            <div className="grid items-center grid-cols-1 mt-12 gap-x-4 gap-y-8 lg:grid-cols-3 overflow-wrap">
               <div className="flex flex-col items-center justify-center col-span-1">
-                <h3 className="text-[24px] font-semibold">Sample Feature 1</h3>
+                <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
+                  <SparklesIcon
+                    className="w-8 h-8 text-indigo-400"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3 className="text-[24px] font-semibold">Feature Rich</h3>
                 <p className="text-[16px]">
-                  The Homepage is your time to shine
+                  This Homepage is sparkling for your delight
                 </p>
               </div>
               <div className="flex flex-col items-center justify-center col-span-1">
-                <h3 className="text-[24px] font-semibold">Sample Feature 2</h3>
-                <p className="text-[16px]">
-                  The Homepage is your time to shine
-                </p>
+                <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
+                  <ShieldCheckIcon
+                    className="w-8 h-8 text-indigo-400"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3 className="text-[24px] font-semibold">Secure</h3>
+                <p className="text-[16px]">This Homepage is secure</p>
               </div>
               <div className="flex flex-col items-center justify-center col-span-1">
-                <h3 className="text-[24px] font-semibold">Sample Feature 3</h3>
-                <p className="text-[16px]">
-                  The Homepage is your time to shine
-                </p>
+                <div className="flex flex-col items-center justify-center p-2 mb-4 border border-gray-100 rounded-lg shadow-sm bg-gray-50">
+                  <LightBulbIcon
+                    className="w-8 h-8 text-indigo-400"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <h3 className="text-[24px] font-semibold">New Ideas</h3>
+                <p className="text-[16px]">This homepage is full of ideas</p>
               </div>
             </div>
           </div>

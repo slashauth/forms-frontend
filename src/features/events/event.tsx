@@ -1,17 +1,18 @@
-import homeGradient from '../../common/gradients/home-gradient.png';
 import { WhiteButton } from '../../common/components/Buttons';
+import { gradientIdx } from '../../common/gradients';
 import { SlashauthEvent } from '../../model/event';
 
 type Props = {
   event: SlashauthEvent;
+  idx: number;
 };
 
-export const EventElem = ({ event }: Props) => {
+export const EventElem = ({ event, idx }: Props) => {
   return (
     <div className="flex items-start">
       <div className="h-[242px] w-[242px] overflow-hidden relative">
         <img
-          src={homeGradient}
+          src={gradientIdx(idx)}
           className="absolute h-full"
           alt="Home Gradient"
         />

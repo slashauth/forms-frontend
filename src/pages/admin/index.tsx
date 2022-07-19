@@ -60,7 +60,7 @@ export const AdminPage = () => {
     return (
       <div className="flex flex-col space-y-4">
         {events.data.map((ev, idx) => (
-          <EventElem key={`${ev.name}-${idx}`} event={ev} />
+          <EventElem key={`${ev.name}-${idx}`} event={ev} idx={idx} />
         ))}
       </div>
     );

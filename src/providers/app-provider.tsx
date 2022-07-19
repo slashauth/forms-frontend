@@ -37,7 +37,7 @@ const AppProvider = ({ children }: Props) => {
     setEvents({ data: undefined, loading: false });
   }
 
-  if (!isAuthenticated && Object.keys(roles).length !== 0) {
+  if (!isAuthenticated && roles && Object.keys(roles).length !== 0) {
     setRoles({});
   }
 
