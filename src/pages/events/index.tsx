@@ -1,6 +1,6 @@
 import { CalendarIcon } from '@heroicons/react/outline';
 import { useSlashAuth } from '@slashauth/slashauth-react';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { LoggedOut } from '../../common/components/LoggedOut';
 import { BeatLoader } from '../../common/components/spinners/beat-loader';
 import ContentLayout from '../../common/layout/content';
@@ -15,13 +15,6 @@ export const EventsPage = () => {
   const { events, roles } = useContext(AppContext);
 
   const { isAuthenticated } = useSlashAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      events.fetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
 
   const eventsContent = useMemo(() => {
     if (!isAuthenticated) {

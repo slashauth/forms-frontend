@@ -1,5 +1,5 @@
 import { useSlashAuth } from '@slashauth/slashauth-react';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { LoggedOut } from '../../common/components/LoggedOut';
 import { NotAuthorized } from '../../common/components/NotAuthorized';
 import { BeatLoader } from '../../common/components/spinners/beat-loader';
@@ -24,13 +24,6 @@ export const AccountPage = () => {
 
   const [nicknameValue, setNicknameValue] = useState('');
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      me.fetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
-
   const handleSetNickname = useCallback(async () => {
     if (isAuthenticated && me?.patch) {
       me.patch(nicknameValue);
@@ -46,14 +39,17 @@ export const AccountPage = () => {
     if (
       !roles.data ||
       !roles.data[RoleNameMember] ||
-      roles.data[RoleNameMember].loading ||
-      !me?.data
+      roles.data[RoleNameMember].loading
     ) {
       return <BeatLoader />;
     }
 
     if (!roles.data[RoleNameMember].data) {
       return <NotAuthorized roleNameRequired={RoleNameMember} />;
+    }
+
+    if (!me?.data) {
+      return <BeatLoader />;
     }
 
     return (
