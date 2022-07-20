@@ -1,3 +1,5 @@
+import { decodeCaseSensitiveClientID } from './util/id';
+
 export type Web3Network = 'ethMainnet' | 'ethRinkeby';
 
 const clientIDRegex = /^([^\\.]+)\.demo\.slashauth\.xyz$/;
@@ -11,7 +13,7 @@ const extractClientID = () => {
 
   const match = window.location.host.match(clientIDRegex);
   if (match && match.length > 1) {
-    return match[1];
+    return decodeCaseSensitiveClientID(match[1]);
   }
 
   return FALLBACK_CLIENT_ID;
