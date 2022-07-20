@@ -3,6 +3,12 @@ import { AppMetadata } from '../model/app-metadata';
 import { SlashauthEvent } from '../model/event';
 import { User } from '../model/user';
 
+type MintResponse = {
+  success: boolean;
+  txHash: string;
+  scanUrl: string;
+};
+
 export class API {
   private readonly _config: Config;
   private readonly _accessToken: string | null;
@@ -13,10 +19,14 @@ export class API {
   }
 
   public async getAppMetadata(): Promise<AppMetadata | null> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/metadata', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -31,10 +41,14 @@ export class API {
   }
 
   public async getMe(): Promise<User> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/me', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -48,10 +62,14 @@ export class API {
   }
 
   public async patchMe(nickname: string): Promise<User> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/me', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'PATCH',
       body: JSON.stringify({ nickname }),
@@ -66,10 +84,14 @@ export class API {
   }
 
   public async addEvent(event: SlashauthEvent): Promise<SlashauthEvent> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/events', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'PATCH',
       body: JSON.stringify(event),
@@ -82,10 +104,39 @@ export class API {
     return event;
   }
 
+  public async mintToken(roleName: string): Promise<MintResponse> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
+    const response = await fetch(this._config.restDomain + '/tokens', {
+      headers: {
+        ...this.defaultHeaders(),
+        ...authHeader,
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        roleLevel: roleName,
+      }),
+    });
+
+    if (response.status > 299 || response.status < 200) {
+      console.error('Failed to mint token');
+    }
+
+    const elem = await response.json();
+    return elem;
+  }
+
   public async getEvents(): Promise<SlashauthEvent[]> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/events', {
       headers: {
         ...this.defaultHeaders(),
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -109,9 +160,14 @@ export class API {
   }
 
   public async getUsers(): Promise<User[]> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/users', {
       headers: {
         ...this.defaultHeaders(),
+        ...authHeader,
       },
       method: 'GET',
     });
