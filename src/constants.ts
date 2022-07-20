@@ -1,2 +1,2 @@
-export const RoleNameAdmin = 'Admin';
-export const RoleNameMember = 'Member';
+export const RoleNameAdmin = 'SampleAdmin';
+export const RoleNameMember = 'SampleMember';
