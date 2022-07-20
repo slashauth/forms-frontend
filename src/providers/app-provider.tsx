@@ -44,6 +44,9 @@ const AppProvider = ({ children }: Props) => {
   const { getAccessTokenSilently, isAuthenticated, hasRole } = useSlashAuth();
   const config = useContext(ConfigContext);
 
+  const [lastRoleDataAdmin, setLastRoleDataAdmin] = useState(false);
+  const [lastRoleDataMember, setLastRoleDataMember] = useState(false);
+
   if (!isAuthenticated && events.data !== undefined) {
     setEvents({ data: undefined, loading: false });
   }
@@ -253,6 +256,36 @@ const AppProvider = ({ children }: Props) => {
         });
     });
   }, [config, events, getAccessTokenSilently, isAuthenticated]);
+
+  if (
+    roles &&
+    roles[RoleNameAdmin] &&
+    !roles[RoleNameAdmin].loading &&
+    roles[RoleNameAdmin].data !== undefined &&
+    lastRoleDataAdmin !== roles[RoleNameAdmin].data
+  ) {
+    if (roles[RoleNameAdmin].data && isAuthenticated) {
+      fetchEvents();
+      fetchUsers();
+    }
+    setLastRoleDataAdmin(roles[RoleNameAdmin].data);
+  }
+
+  if (
+    roles &&
+    roles[RoleNameMember] &&
+    !roles[RoleNameMember].loading &&
+    roles[RoleNameMember].data !== undefined &&
+    lastRoleDataMember !== roles[RoleNameMember].data
+  ) {
+    console.log('here');
+    if (roles[RoleNameMember].data && isAuthenticated) {
+      console.log('fetching');
+      fetchEvents();
+      fetchMe();
+    }
+    setLastRoleDataMember(roles[RoleNameMember].data);
+  }
 
   return (
     <AppContext.Provider

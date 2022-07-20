@@ -1,6 +1,6 @@
 import { CalendarIcon, ClipboardCopyIcon } from '@heroicons/react/outline';
 import { useSlashAuth } from '@slashauth/slashauth-react';
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { PrimaryButton } from '../../common/components/Buttons';
 import { LoggedOut } from '../../common/components/LoggedOut';
 import { NotAuthorized } from '../../common/components/NotAuthorized';
@@ -25,14 +25,6 @@ export const AdminPage = () => {
   const { isAuthenticated } = useSlashAuth();
 
   const listDivRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      events.fetch();
-      users.fetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
 
   const handleListScroll = useCallback(() => {
     if (
