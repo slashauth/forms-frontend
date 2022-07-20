@@ -13,10 +13,14 @@ export class API {
   }
 
   public async getAppMetadata(): Promise<AppMetadata | null> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/metadata', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -31,10 +35,14 @@ export class API {
   }
 
   public async getMe(): Promise<User> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/me', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -48,10 +56,14 @@ export class API {
   }
 
   public async patchMe(nickname: string): Promise<User> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/me', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'PATCH',
       body: JSON.stringify({ nickname }),
@@ -66,10 +78,14 @@ export class API {
   }
 
   public async addEvent(event: SlashauthEvent): Promise<SlashauthEvent> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/events', {
       headers: {
         ...this.defaultHeaders(),
-        Authorization: `Bearer ${this._accessToken}`,
+        ...authHeader,
       },
       method: 'PATCH',
       body: JSON.stringify(event),
@@ -83,9 +99,14 @@ export class API {
   }
 
   public async getEvents(): Promise<SlashauthEvent[]> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/events', {
       headers: {
         ...this.defaultHeaders(),
+        ...authHeader,
       },
       method: 'GET',
     });
@@ -109,9 +130,14 @@ export class API {
   }
 
   public async getUsers(): Promise<User[]> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
     const response = await fetch(this._config.restDomain + '/users', {
       headers: {
         ...this.defaultHeaders(),
+        ...authHeader,
       },
       method: 'GET',
     });
