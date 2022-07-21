@@ -10,13 +10,13 @@ type MintResponse = {
 };
 
 export type SubmitFormInput = {
-  requesterName: string;
-  requesterEmail?: string;
-  requesterDiscordID: string;
-  OIP: string;
-  requestedTokens: string;
-  destinationWallet?: string;
-  assignedTo: string;
+  req_name: string;
+  req_email?: string;
+  req_discord_id: string;
+  oip: string;
+  req_tokens: string;
+  dest_wallet?: string;
+  assigned_to: string;
   notes?: string;
 };
 
