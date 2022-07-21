@@ -9,7 +9,7 @@ PROD_BRANCH := production
 PORCELAIN_STATUS := $(shell git status --porcelain)
 
 DEMO_BUCKET_NAME := slashauth-static-webpages
-DEMO_FOLDER_NAME := demo-webapp
+DEMO_FOLDER_NAME := demo-forms
 
 .PHONY: install
 install:

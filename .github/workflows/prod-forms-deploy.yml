@@ -36,7 +36,7 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          job_name: Slashauth Demo Deployment
+          job_name: Slashauth Forms Deployment
           fields: repo,message,commit,author,action,eventName,ref,workflow # selectable (default: repo,message)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
