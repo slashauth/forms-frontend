@@ -1,0 +1,61 @@
+{
+  "id": "mxsD",
+  "name": "Orange DAO Token Release Request",
+  "description": "Only use this form for tokens from approved Proposals and existing budgets. (Not for new spending!)\n\nIf there are multiple payments (EG: Multiple OIPs) please note that clearly in the requested tokens field or create a new TRR per OIP so we can verify the request.\n\nAll data in this form will be visible to the DAO.",
+  "fields": [
+    {
+      "id": "requesterName",
+      "name": "Requester Name",
+      "description": "Nickname is fine as long as we can properly identify you.",
+      "type": "text_input"
+    },
+    {
+      "id": "requesterEmail",
+      "name": "Requester Email",
+      "description": "This is where we will send updates regarding this TR.",
+      "type": "email_input"
+    },
+    {
+      "id": "requesterDiscordID",
+      "name": "Requester Discord ID",
+      "description": "For the very important request verification step.",
+      "type": "text_input"
+    },
+    {
+      "id": "OIP",
+      "name": "OIP or Project Name",
+      "description": "What proposal authorizes these tokens?",
+      "type": "text_input"
+    },
+    {
+      "id": "requestedTokens",
+      "name": "Requested Tokens",
+      "description": "List the token type and number of tokens please.",
+      "type": "text_area"
+    },
+    {
+      "id": "destinationWallet",
+      "name": "Destination Wallet Address",
+      "description": "If not listed in proposal or requesting a change. Requires manual verification.",
+      "type": "text_input"
+    },
+    {
+      "id": "assignedTo",
+      "name": "Assigned To",
+      "description": "Which committee is overseeing your proposal? This routes the request to the right people in the DAO. DAO Org Chart: https://orgchart.timeisltd.com/s/sc8GGCVMFW8ilNsfoDAG",
+      "type": "select",
+      "options": [
+        "Unassigned",
+        "Development",
+        "Governance",
+        "Treasury"
+      ]
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "description": "Anything else you want to add?",
+      "type": "text_area"
+    }
+  ]
+}

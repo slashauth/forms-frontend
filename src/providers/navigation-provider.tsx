@@ -1,8 +1,3 @@
-import {
-  CalendarIcon,
-  PaperAirplaneIcon,
-  UserIcon,
-} from '@heroicons/react/outline';
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NavigationContext } from '../context';
@@ -25,38 +20,7 @@ export type SidebarItem = {
   icon: React.ElementType;
 };
 
-const items: SidebarItem[] = [
-  {
-    id: LeftBarID.Home,
-    name: 'Home',
-    pathname: '/',
-    icon: PaperAirplaneIcon,
-  },
-  {
-    id: LeftBarID.Account,
-    name: 'Account',
-    pathname: '/account',
-    icon: UserIcon,
-  },
-  {
-    id: LeftBarID.Events,
-    name: 'Events',
-    pathname: '/events',
-    icon: CalendarIcon,
-  },
-  {
-    id: LeftBarID.Contact,
-    name: 'Contact',
-    pathname: '/contact',
-    icon: PaperAirplaneIcon,
-  },
-  {
-    id: LeftBarID.Admin,
-    name: 'Admin',
-    pathname: '/admin',
-    icon: UserIcon,
-  },
-];
+const items: SidebarItem[] = [];
 
 export type NavigationState = {
   navigationItems: SidebarItem[];

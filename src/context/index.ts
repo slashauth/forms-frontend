@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
 import { Config, emptyConfig } from '../config';
-import { AppMetadata } from '../model/app-metadata';
-import { SlashauthEvent } from '../model/event';
-import { User } from '../model/user';
 import { NavigationState } from '../providers/navigation-provider';
 
 export type ModalActionType = string;
@@ -31,17 +28,6 @@ export type ModalContextType = {
 };
 
 export type AppContextType = {
-  appMetadata: {
-    data: AppMetadata | null;
-    loading: boolean;
-    fetch: () => Promise<AppMetadata>;
-  };
-  events: {
-    data: SlashauthEvent[] | null;
-    loading: boolean;
-    fetch: () => Promise<SlashauthEvent[] | null>;
-    addEvent: (event: SlashauthEvent) => void;
-  };
   roles: {
     data: {
       [roleName: string]: {
@@ -52,46 +38,13 @@ export type AppContextType = {
     fetch: (roleName: string) => Promise<boolean>;
     fetchRoles: () => Promise<void>;
   };
-  users: {
-    data: User[] | null;
-    loading: boolean;
-    fetch: () => Promise<User[] | null>;
-  };
-  me: {
-    data: User | null;
-    loading: boolean;
-    fetch: () => Promise<User | null>;
-    patch: (nickname: string) => Promise<User | null>;
-  };
 };
 
 export const emptyAppContext = {
-  appMetadata: {
-    data: undefined,
-    loading: false,
-    fetch: async () => null,
-  },
-  events: {
-    data: undefined,
-    loading: false,
-    fetch: async () => null,
-    addEvent: (event: SlashauthEvent) => {},
-  },
   roles: {
     data: {},
     fetch: async () => false,
     fetchRoles: async () => {},
-  },
-  users: {
-    data: undefined,
-    loading: false,
-    fetch: async () => null,
-  },
-  me: {
-    data: undefined,
-    loading: false,
-    fetch: async () => null,
-    patch: async (nickname: string) => null,
   },
 };
 
