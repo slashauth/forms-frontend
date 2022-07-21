@@ -51,7 +51,7 @@ export const InputWithValidation = ({
         'block w-full pr-6 focus:outline-none sm:text-sm rounded-md dark:bg-pale-sky-900',
       validationError
         ? 'border-solid border-red-300 dark:border-red-700 text-red-900 dark:text-coral-red-100 placeholder-red-300 dark:placeholder-red-700 focus:ring-red-500 focus:border-red-500'
-        : 'border-solid focus:ring-indigo-500 focus:border-indigo-500 border-gray-100 dark:border-gray-700'
+        : 'border-solid focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-700'
     )}
     hideTooltip={hideTooltip}
     readOnly={readOnly}

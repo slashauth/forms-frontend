@@ -2,9 +2,9 @@ import { decodeCaseSensitiveClientID } from './util/id';
 
 export type Web3Network = 'ethMainnet' | 'ethRinkeby';
 
-const clientIDRegex = /^([^\\.]+)\.demo\.slashauth\.xyz$/;
+const clientIDRegex = /^([^\\.]+)\.forms.ext\.slashauth\.xyz$/;
 
-const FALLBACK_CLIENT_ID = 'Q8XH-kI6lvFBUutG';
+const FALLBACK_CLIENT_ID = 'W8SLanP5LEBUE6JU';
 
 const extractClientID = () => {
   if (!window.location) {
@@ -52,7 +52,7 @@ const localConfig: Config = {
 };
 
 const prodConfig: Config = {
-  appEndpoint: () => `https://${extractClientID()}.demo.slashauth.xyz`,
+  appEndpoint: () => `https://${extractClientID()}.forms.ext.slashauth.xyz`,
   restDomain: 'https://api.demo.slashauth.xyz',
   appClientID: extractClientID(),
   featureFlags: {

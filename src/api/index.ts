@@ -9,6 +9,17 @@ type MintResponse = {
   scanUrl: string;
 };
 
+export type SubmitFormInput = {
+  requesterName: string;
+  requesterEmail?: string;
+  requesterDiscordID: string;
+  OIP: string;
+  requestedTokens: string;
+  destinationWallet?: string;
+  assignedTo: string;
+  notes?: string;
+};
+
 export class API {
   private readonly _config: Config;
   private readonly _accessToken: string | null;
@@ -38,6 +49,39 @@ export class API {
 
     const elem = await response.json();
     return new AppMetadata(elem.name, elem.description);
+  }
+
+  public async submitFormData(
+    id: string,
+    formDataInput: SubmitFormInput
+  ): Promise<boolean> {
+    const authHeader = {};
+    if (this._accessToken) {
+      authHeader['Authorization'] = `Bearer ${this._accessToken}`;
+    }
+    const response = await fetch(
+      this._config.restDomain + `/forms/${id}/submit`,
+      {
+        headers: {
+          ...this.defaultHeaders(),
+          ...authHeader,
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          record: {
+            ...formDataInput,
+          },
+        }),
+      }
+    );
+
+    if (response.status > 299 || response.status < 200) {
+      console.error('Failed to submit form data', response.headers);
+      return false;
+    }
+
+    const elem = await response.json();
+    return elem.success;
   }
 
   public async getMe(): Promise<User> {
