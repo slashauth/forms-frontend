@@ -36,8 +36,6 @@ export const InputForm = ({ formDef }: Props) => {
     success: false,
   });
 
-  console.log(validationErrors);
-
   const validateFieldWithID = useCallback(
     (field: FormDefField): string | null => {
       if (
