@@ -3,4 +3,9 @@ import mxsDJson from './mxsD.json';
 
 const mxsD = mxsDJson as FormDefinition;
 
-export { mxsD };
+const exports = {
+  mxsD,
+  [mxsD.slug]: mxsD,
+};
+
+export default exports;

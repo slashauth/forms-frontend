@@ -9,6 +9,7 @@ type Props = {
   validationError?: string;
   onBlur?: () => void;
   onFocus?: () => void;
+  required?: boolean;
 };
 
 export const TextInput = ({
@@ -18,10 +19,15 @@ export const TextInput = ({
   validationError,
   onBlur,
   onFocus,
+  required,
 }: Props) => {
   return (
     <div className="flex flex-col items-center w-full space-y-2">
-      <InputTitle title={inputDef.name} description={inputDef.description} />
+      <InputTitle
+        title={inputDef.name}
+        description={inputDef.description}
+        required={required}
+      />
       <div className="w-full">
         <InputWithValidation
           value={value}
@@ -29,6 +35,7 @@ export const TextInput = ({
           validationError={validationError}
           onBlur={onBlur}
           onFocus={onFocus}
+          hideTooltip
         />
       </div>
     </div>

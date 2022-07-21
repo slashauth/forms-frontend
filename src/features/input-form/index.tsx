@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo, useState } from 'react';
-import { FormDefinition } from '../../@types/form-def';
+import { FormDefField, FormDefinition } from '../../@types/form-def';
 import { EmailInput } from './email-input';
 import { SelectInput } from './select-input';
 import { TextAreaInput } from './text-area-input';
@@ -26,15 +26,55 @@ type SubmittingState = {
 export const InputForm = ({ formDef }: Props) => {
   const config = useContext(ConfigContext);
   const { isAuthenticated, getAccessTokenSilently, logout } = useSlashAuth();
-  const [inputValues, setInputValues] = useState({});
+  const [inputValues, setInputValues] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
 
   const [submittingState, setSubmittingState] = useState<SubmittingState>({
     submitting: false,
     success: false,
   });
 
+  const validateFieldWithID = useCallback(
+    (field: FormDefField): string | null => {
+      if (
+        field.required &&
+        (!inputValues[field.id] || inputValues[field.id] === '')
+      ) {
+        setValidationErrors((curr) => ({
+          ...curr,
+          [field.id]: 'Field is required',
+        }));
+        return 'Input is required';
+      } else {
+        setValidationErrors((curr) => ({
+          ...curr,
+          [field.id]: null,
+        }));
+        return null;
+      }
+    },
+    [inputValues]
+  );
+
+  const validateForms = useCallback(() => {
+    let success = true;
+    formDef.fields.forEach((field) => {
+      const validationError = validateFieldWithID(field);
+      if (validationError) {
+        success = false;
+      }
+    });
+    return success;
+  }, [formDef.fields, validateFieldWithID]);
+
   const handleSubmit = useCallback(async () => {
     if (submittingState.submitting || !isAuthenticated) {
+      return;
+    }
+    if (!validateForms()) {
+      toast.error('Please fill in required fields');
       return;
     }
     setSubmittingState({ success: false, submitting: true });
@@ -78,6 +118,7 @@ export const InputForm = ({ formDef }: Props) => {
     isAuthenticated,
     logout,
     submittingState.submitting,
+    validateForms,
   ]);
 
   const formFields = useMemo(
@@ -89,9 +130,15 @@ export const InputForm = ({ formDef }: Props) => {
               <TextInput
                 inputDef={field}
                 key={field.id}
+                required={field.required}
                 value={inputValues[field.id] || ''}
+                validationError={validationErrors[field.id]}
                 onChange={(val) =>
                   setInputValues((curr) => ({ ...curr, [field.id]: val }))
+                }
+                onBlur={() => validateFieldWithID(field)}
+                onFocus={() =>
+                  setValidationErrors((curr) => ({ ...curr, [field.id]: null }))
                 }
               />
             );
@@ -100,9 +147,15 @@ export const InputForm = ({ formDef }: Props) => {
               <EmailInput
                 inputDef={field}
                 key={field.id}
+                required={field.required}
                 value={inputValues[field.id] || ''}
+                validationError={validationErrors[field.id]}
                 onChange={(val) =>
                   setInputValues((curr) => ({ ...curr, [field.id]: val }))
+                }
+                onBlur={() => validateFieldWithID(field)}
+                onFocus={() =>
+                  setValidationErrors((curr) => ({ ...curr, [field.id]: null }))
                 }
               />
             );
@@ -111,9 +164,15 @@ export const InputForm = ({ formDef }: Props) => {
               <TextAreaInput
                 inputDef={field}
                 key={field.id}
+                required={field.required}
                 value={inputValues[field.id] || ''}
+                validationError={validationErrors[field.id]}
                 onChange={(val) =>
                   setInputValues((curr) => ({ ...curr, [field.id]: val }))
+                }
+                onBlur={() => validateFieldWithID(field)}
+                onFocus={() =>
+                  setValidationErrors((curr) => ({ ...curr, [field.id]: null }))
                 }
               />
             );
@@ -130,7 +189,7 @@ export const InputForm = ({ formDef }: Props) => {
             );
         }
       }),
-    [formDef.fields, inputValues]
+    [formDef.fields, inputValues, validateFieldWithID, validationErrors]
   );
 
   const contents = useMemo(() => {

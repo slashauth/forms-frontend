@@ -4,6 +4,7 @@ import { TextInput } from './text-input';
 type Props = {
   inputDef: FormDefEmailInputField;
   value: string;
+  required?: boolean;
   onChange: (value: string) => void;
   validationError?: string;
   onBlur?: () => void;
@@ -17,10 +18,12 @@ export const EmailInput = ({
   validationError,
   onBlur,
   onFocus,
+  required,
 }: Props) => {
   return (
     <TextInput
       inputDef={{ ...inputDef, type: 'text_input' }}
+      required={required}
       value={value}
       onChange={onChange}
       validationError={validationError}

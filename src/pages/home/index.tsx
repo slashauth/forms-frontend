@@ -1,6 +1,6 @@
 import TopBar from '../../features/top-bar';
 import ContentLayout from '../../common/layout/content';
-import * as formDefs from '../../assets/forms';
+import formDefs from '../../assets/forms';
 import { InputForm } from '../../features/input-form';
 import { useContext, useMemo } from 'react';
 import { AppContext, ConfigContext } from '../../context';
@@ -49,7 +49,6 @@ const Home = () => {
     if (!formID || !formDefs[formID]) {
       return <NotFound />;
     }
-
     // eslint-disable-next-line import/namespace
     return <InputForm formDef={formDefs[formID]} />;
   }, [config.appClientID, formID, isAuthenticated, roles.data]);

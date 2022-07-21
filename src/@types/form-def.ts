@@ -2,6 +2,7 @@ type FormDefBaseFields = {
   id: string;
   name: string;
   description: string;
+  required?: boolean;
 };
 
 export type FormDefTextInputField = FormDefBaseFields & {
@@ -21,14 +22,16 @@ export type FormDefSelectField = FormDefBaseFields & {
   options: string[];
 };
 
+export type FormDefField =
+  | FormDefTextInputField
+  | FormDefTextAreaField
+  | FormDefEmailInputField
+  | FormDefSelectField;
+
 export type FormDefinition = {
   id: string;
   name: string;
   description: string;
-  fields: (
-    | FormDefTextInputField
-    | FormDefTextAreaField
-    | FormDefEmailInputField
-    | FormDefSelectField
-  )[];
+  slug: string;
+  fields: FormDefField[];
 };

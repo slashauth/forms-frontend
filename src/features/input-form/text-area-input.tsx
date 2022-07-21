@@ -8,6 +8,7 @@ type Props = {
   validationError?: string;
   onBlur?: () => void;
   onFocus?: () => void;
+  required?: boolean;
 };
 
 export const TextAreaInput = ({
@@ -16,10 +17,15 @@ export const TextAreaInput = ({
   onChange,
   onBlur,
   onFocus,
+  required,
 }: Props) => {
   return (
     <div className="flex flex-col items-center w-full space-y-2">
-      <InputTitle title={inputDef.name} description={inputDef.description} />
+      <InputTitle
+        title={inputDef.name}
+        description={inputDef.description}
+        required={required}
+      />
       <textarea
         rows={4}
         className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
