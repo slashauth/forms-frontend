@@ -2,7 +2,7 @@ on:
   push:
     branches: [production]
 
-name: Deploy Slashauth - Demo
+name: Deploy Slashauth - Forms
 
 jobs:
   deploy:
