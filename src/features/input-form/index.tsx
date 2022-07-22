@@ -40,7 +40,8 @@ export const InputForm = ({ formDef }: Props) => {
     (field: FormDefField): string | null => {
       if (
         field.required &&
-        (!inputValues[field.id] || inputValues[field.id] === '')
+        (!inputValues[field.id] || inputValues[field.id] === '') &&
+        field.type !== 'select'
       ) {
         setValidationErrors((curr) => ({
           ...curr,
@@ -181,6 +182,7 @@ export const InputForm = ({ formDef }: Props) => {
               <SelectInput
                 inputDef={field}
                 key={field.id}
+                required={field.required}
                 value={inputValues[field.id] || ''}
                 onChange={(val) =>
                   setInputValues((curr) => ({ ...curr, [field.id]: val }))
