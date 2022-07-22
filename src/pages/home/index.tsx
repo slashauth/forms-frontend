@@ -47,7 +47,7 @@ const Home = () => {
 
     // eslint-disable-next-line import/namespace
     if (!formID || !formDefs[formID]) {
-      return <NotFound />;
+      return <NotFound showNotFound={formID && formID.length > 0} />;
     }
     // eslint-disable-next-line import/namespace
     return <InputForm formDef={formDefs[formID]} />;
