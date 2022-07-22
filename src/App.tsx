@@ -39,9 +39,17 @@ function App() {
           </AppProvider>
         </SlashAuthProvider>
       </ConfigProvider>
-      <div className="flex items-center justify-center my-8">
-        Powered by /auth
-      </div>
+      <span className="flex items-center justify-center my-8">
+        Powered by{' '}
+        <a
+          href="https://www.slashauth.xyz"
+          target="_blank"
+          rel="noreferrer"
+          className="ml-1 text-indigo-500 hover:text-indigo-600 focus:text-indigo-700"
+        >
+          /auth
+        </a>
+      </span>
     </div>
   );
 }

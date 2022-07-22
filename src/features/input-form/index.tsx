@@ -214,7 +214,8 @@ export const InputForm = ({ formDef }: Props) => {
       );
     }
 
-    if (submittingState.success) {
+    // eslint-disable-next-line no-constant-condition
+    if (true || submittingState.success) {
       return (
         <div className="flex flex-col items-center justify-center p-8 bg-gray-50">
           <img src={orangeLogo} className="mb-8 w-36 h-36" alt={'logo'} />
@@ -224,6 +225,17 @@ export const InputForm = ({ formDef }: Props) => {
           <p className="text-[16px] text-secondary w-full mb-6">
             Your data has been submitted! Have a Juicy Day.
           </p>
+          <span className="mt-8 text-[14px] text-primary">
+            Want to build your own token gated form?{' '}
+            <a
+              href="https://www.slashauth.xyz/features/forms"
+              target="_blank"
+              rel="noreferrer"
+              className="text-indigo-500 hover:text-indigo-600 focus:text-indigo-700"
+            >
+              Join our Beta!
+            </a>
+          </span>
         </div>
       );
     }
