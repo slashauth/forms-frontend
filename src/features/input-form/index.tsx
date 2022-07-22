@@ -214,8 +214,7 @@ export const InputForm = ({ formDef }: Props) => {
       );
     }
 
-    // eslint-disable-next-line no-constant-condition
-    if (true || submittingState.success) {
+    if (submittingState.success) {
       return (
         <div className="flex flex-col items-center justify-center p-8 bg-gray-50">
           <img src={orangeLogo} className="mb-8 w-36 h-36" alt={'logo'} />
