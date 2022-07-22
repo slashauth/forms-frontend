@@ -14,6 +14,7 @@ type Props = {
 export const TextAreaInput = ({
   inputDef,
   value,
+  validationError,
   onChange,
   onBlur,
   onFocus,
@@ -25,6 +26,7 @@ export const TextAreaInput = ({
         title={inputDef.name}
         description={inputDef.description}
         required={required}
+        validationError={validationError}
       />
       <textarea
         rows={4}

@@ -27,12 +27,12 @@ export const TextInput = ({
         title={inputDef.name}
         description={inputDef.description}
         required={required}
+        validationError={validationError}
       />
       <div className="w-full">
         <InputWithValidation
           value={value}
           onTextChange={onChange}
-          validationError={validationError}
           onBlur={onBlur}
           onFocus={onFocus}
           hideTooltip
