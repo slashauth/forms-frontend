@@ -24,6 +24,7 @@ export const SelectInput = ({ inputDef, required, value, onChange }: Props) => {
           onChange(e.target.value);
         }}
       >
+        <option key={'empty-str'} value={''} />
         {inputDef.options.map((option) => (
           <option key={option} value={option}>
             {option}

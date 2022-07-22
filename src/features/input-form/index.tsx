@@ -36,12 +36,13 @@ export const InputForm = ({ formDef }: Props) => {
     success: false,
   });
 
+  console.log(validationErrors);
+
   const validateFieldWithID = useCallback(
     (field: FormDefField): string | null => {
       if (
         field.required &&
-        (!inputValues[field.id] || inputValues[field.id] === '') &&
-        field.type !== 'select'
+        (!inputValues[field.id] || inputValues[field.id] === '')
       ) {
         setValidationErrors((curr) => ({
           ...curr,
@@ -184,9 +185,13 @@ export const InputForm = ({ formDef }: Props) => {
                 key={field.id}
                 required={field.required}
                 value={inputValues[field.id] || ''}
-                onChange={(val) =>
-                  setInputValues((curr) => ({ ...curr, [field.id]: val }))
-                }
+                onChange={(val) => {
+                  setInputValues((curr) => ({ ...curr, [field.id]: val }));
+                  setValidationErrors((curr) => ({
+                    ...curr,
+                    [field.id]: null,
+                  }));
+                }}
               />
             );
         }
